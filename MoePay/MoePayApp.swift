@@ -9,9 +9,18 @@ import SwiftUI
 
 @main
 struct MoePayApp: App {
+    @State private var coordinator = AppCoordinator()
     var body: some Scene {
         WindowGroup {
-            ContentView()
-        }
+            switch coordinator.flow {
+            case .splash:
+                SplashFlow()
+            case .onboarding:
+                AuthFlow()
+            case .main:
+                MainFlow()
+            }
+        }.environment(coordinator)
     }
 }
+
