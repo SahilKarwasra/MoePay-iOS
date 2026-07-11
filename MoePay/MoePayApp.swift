@@ -12,14 +12,17 @@ struct MoePayApp: App {
     @State private var coordinator = AppCoordinator()
     var body: some Scene {
         WindowGroup {
-            switch coordinator.flow {
-            case .splash:
-                SplashFlow()
-            case .onboarding:
-                AuthFlow()
-            case .main:
-                MainFlow()
+            Group {
+                switch coordinator.flow {
+                case .splash:
+                    SplashFlow()
+                case .onboarding:
+                    AuthFlow()
+                case .main:
+                    MainFlow()
+                }
             }
+            .toastHost()
         }.environment(coordinator)
     }
 }

@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct LoginScreen: View {
+    @State
+    private var loginViewmodel = LoginViewmodel()
+
     var body: some View {
         VStack {
             VerticalSpacer(height: 16)
@@ -17,19 +20,62 @@ struct LoginScreen: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             VerticalSpacer(height: 8)
-            
+
             Text("Enter your phone number")
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundStyle(Color.textSecondary)
                 .frame(maxWidth: .infinity, alignment: .leading)
-            
+
+            VerticalSpacer(height: 12)
+
+            HStack(spacing: 8) {
+                Text(loginViewmodel.state.countryCode)
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundStyle(Color.textPrimary)
+                    .padding(.horizontal, 16)
+                    .frame(height: 56)
+                    .background(Color.surfaceBackground)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 14)
+                            .stroke(Color.borderSubtle, lineWidth: 1)
+                    }
+                TextField(
+                    "Phone Number",
+                    text: Binding(
+                        get: { loginViewmodel.state.phoneNumber },
+                        set: {
+                            loginViewmodel.onAction(action: .phoneChange($0))
+                        }
+                    )
+                )
+                .keyboardType(.numberPad)
+                .font(.system(size: 16))
+                .padding(.horizontal, 16)
+                .frame(height: 56)
+                .background(Color.surfaceBackground)
+                .overlay {
+                    RoundedRectangle(cornerRadius: 14)
+                        .stroke(Color.borderSubtle, lineWidth: 1)
+                }
+            }
+
+            Spacer()
+
+            PrimaryButton(
+                title: "Continue",
+                action: {
+                    loginViewmodel.onAction(action: .onContinueTapped)
+                },
+                isLoading: false,
+                isEnabled: true
+            )
+
         }.padding(.horizontal, 16).frame(
             maxWidth: .infinity,
             maxHeight: .infinity,
             alignment: .topLeading
         )
-        
-        
+
     }
 }
 

@@ -10,3 +10,7 @@ enum OnboardingAction {
     case nextTap
     case skipTap
 }
+
+enum OnboardingEvent : Equatable {
+    case navigateToLogin
+}

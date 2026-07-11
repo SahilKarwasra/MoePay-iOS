@@ -8,7 +8,7 @@ import SwiftUI
 
 @Observable
 final class AppCoordinator {
-    var flow: AppFlow = .splash
+    var flow: AppFlow = .onboarding
     
     func showSplash() {
         flow = .splash

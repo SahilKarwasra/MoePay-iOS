@@ -14,8 +14,6 @@ struct OnboardingScreen: View {
     var body: some View {
         GeometryReader { geometry in
             let steps = viewModel.state.steps
-            let currentStep = steps[viewModel.state.currentStep]
-
             ZStack {
                 Image(.onboardingEllipse)
                     .resizable()
@@ -95,7 +93,9 @@ struct OnboardingScreen: View {
 
                     PrimaryButton(
                         title: buttonTitle,
-                        action: buttonAction
+                        action: buttonAction,
+                        isLoading: false,
+                        isEnabled: true
                     )
                 }
                 .padding(.horizontal, 16)
