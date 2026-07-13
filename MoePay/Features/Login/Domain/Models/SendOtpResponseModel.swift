@@ -16,7 +16,7 @@ struct SendOtpResponseModel: Decodable, Sendable {
 }
 
 
-struct OtpRequestModel: Encodable, Sendable {
+struct SendOtpRequestModel: Encodable, Sendable {
     let phoneNumber: String
 
     enum CodingKeys: String, CodingKey {
