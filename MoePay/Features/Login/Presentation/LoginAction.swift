@@ -12,5 +12,5 @@ enum LoginAction {
 }
 
 enum LoginEvent: Equatable {
-    case navigationToVerifyOtp
+    case navigationToVerifyOtp(phone: String)
 }

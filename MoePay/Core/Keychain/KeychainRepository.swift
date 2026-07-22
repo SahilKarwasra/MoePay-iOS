@@ -30,10 +30,10 @@ actor KeychainRepository {
     func savePrivateKey(_ key: String) async {
         await MainActor.run { KeychainStore.save(key, .privateKey) }
     }
+    func saveIsNewUser(_ isNew: Bool) {
+        defaults.set(isNew, forKey: KeychainKeys.saveIsNewUser.rawValue)
+    }
     
-    /// Clears all keychain entries managed by this repository.
-    /// Overwrites stored values with empty strings. If a delete API exists in KeychainStore,
-    /// consider switching to deletions for true removal.
     func clearAll() async {
         await MainActor.run {
             KeychainStore.delete(.authToken)

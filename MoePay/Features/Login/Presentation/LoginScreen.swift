@@ -10,6 +10,7 @@ import SwiftUI
 struct LoginScreen: View {
     @State
     private var loginViewmodel = LoginViewmodel()
+    @Environment(AuthCoordinator.self) private var authCoordinator
 
     var body: some View {
         VStack {
@@ -59,8 +60,8 @@ struct LoginScreen: View {
                 }
             }
 
-            Spacer()
-
+            VerticalSpacer(height: 24)
+            
             PrimaryButton(
                 title: "Continue",
                 action: {
@@ -74,7 +75,14 @@ struct LoginScreen: View {
             maxWidth: .infinity,
             maxHeight: .infinity,
             alignment: .topLeading
-        )
+        ).onAppear {
+            loginViewmodel.onEvent = { event in
+                switch event {
+                case .navigationToVerifyOtp(let phone):
+                    authCoordinator.push(.verifyOtp(phone: phone))
+                }
+            }
+        }
 
     }
 }

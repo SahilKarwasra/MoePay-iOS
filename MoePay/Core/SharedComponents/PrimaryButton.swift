@@ -12,6 +12,7 @@ struct PrimaryButton: View {
     let action: () -> Void
     var isLoading: Bool
     var isEnabled: Bool
+    
     var body: some View {
         Button {
             guard !isLoading else { return }

@@ -7,5 +7,5 @@
 
 protocol AuthRepository: Sendable {
     func generateOTP(phone: String) async -> APIResult<SendOtpResponseModel>
-//    func verifyOTP(phone: String, otp: String) async -> ApiResult<SendOtpResponseModel>
+    func verifyOTP(phone: String, otp: String) async -> APIResult<VerifyOtpResponseModel>
 }

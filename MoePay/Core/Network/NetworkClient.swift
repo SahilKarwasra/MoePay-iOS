@@ -12,7 +12,12 @@ final class NetworkClient: Sendable {
     private let session: URLSession
     private let excludedLogPaths: Set<String>
 
-    init(tokenProvider: any TokenProvider, baseURL: URL, session: URLSession, excludedLogPaths: Set<String> = []) {
+    init(
+        tokenProvider: any TokenProvider,
+        baseURL: URL,
+        session: URLSession,
+        excludedLogPaths: Set<String> = []
+    ) {
         self.tokenProvider = tokenProvider.self
         self.baseURL = baseURL
         self.session = session
@@ -283,6 +288,24 @@ final class NetworkClient: Sendable {
             print(
                 "➡️ [\(request.httpMethod ?? "?")] \(request.url?.absoluteString ?? path)\(retry)"
             )
+            // Headers
+            if let headers = request.allHTTPHeaderFields, !headers.isEmpty {
+                print("Headers:")
+                headers.forEach { key, value in
+                    print("  \(key): \(value)")
+                }
+            }
+
+            // Body
+            if let body = request.httpBody, !body.isEmpty {
+                if let json = String(data: body, encoding: .utf8) {
+                    print("Body:")
+                    print(json)
+                } else {
+                    print("Body: <\(body.count) bytes of binary data>")
+                }
+            }
+
         #endif
     }
 

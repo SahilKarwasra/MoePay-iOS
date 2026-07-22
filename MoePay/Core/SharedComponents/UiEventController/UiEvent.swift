@@ -6,5 +6,5 @@
 //
 
 enum UiEvent: Sendable {
-    case Toast(message: String, isLong: Bool = false)
+    case Toast(message: String, isLong: Bool = false, isError: Bool = false)
 }

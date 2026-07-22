@@ -6,18 +6,18 @@
 //
 import Foundation
 
-
 @Observable
 final class LoginViewmodel {
 
     private(set) var state = LoginState()
-    private var events: LoginEvent?
+    var onEvent: ((LoginEvent) -> Void)?
     private let repository: any AuthRepository
-    
-    init(repository: any AuthRepository = AppDIContainer.shared.authRepository) {
+
+    init(repository: any AuthRepository = AppDIContainer.shared.authRepository)
+    {
         self.repository = repository
     }
-    
+
     func onAction(action: LoginAction) {
         switch action {
         case .onContinueTapped: onContinueTapped()
@@ -28,14 +28,16 @@ final class LoginViewmodel {
     func onContinueTapped() {
         Task {
             await repository.generateOTP(phone: state.phoneNumber)
+                .sendSnackbarOnError()
                 .onSuccess { it in
-                    UiEventController.shared.toast("Otp Send to \(it.phoneNumber)")
+                    UiEventController.shared.toast(
+                        "Otp Send to \(it.phoneNumber)"
+                    )
+                    Task { @MainActor in
+                        onEvent?(.navigationToVerifyOtp(phone: state.phoneNumber))
+                    }
                 }
-                .onError { error in
-                    UiEventController.shared.toast(error.message ?? "An error occurred")
-                }
-        }        
+        }
     }
-
 
 }

@@ -5,6 +5,6 @@
 //  Created by Sahil Karwasrsa on 13/07/26.
 //
 
-enum KeychainKeys {
-        
+enum KeychainKeys: String {
+    case saveIsNewUser
 }

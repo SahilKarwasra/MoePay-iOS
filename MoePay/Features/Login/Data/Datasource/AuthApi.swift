@@ -19,4 +19,13 @@ final class AuthApi {
             requiresAuth: false
         ))
     }
+    
+    func verifyOtp(_ request: VerifyOtpRequestModel) async -> APIResult<VerifyOtpResponseModel> {
+        await client.request(Endpoint(
+            path: "auth/verify-otp",
+            method: .post,
+            body: .json(request),
+            requiresAuth: false
+        ))
+    }
 }

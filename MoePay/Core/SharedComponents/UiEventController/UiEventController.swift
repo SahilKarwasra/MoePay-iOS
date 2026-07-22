@@ -6,26 +6,37 @@
 //
 
 final class UiEventController: Sendable {
-    
+
     static let shared = UiEventController()
-    
+
     let events: AsyncStream<UiEvent>
     private let continuation: AsyncStream<UiEvent>.Continuation
-    
+
     private init() {
         (events, continuation) = AsyncStream.makeStream(
             bufferingPolicy: .bufferingNewest(16)
         )
     }
-    
+
     func send(_ event: UiEvent) {
         continuation.yield(event)
     }
-    
+
 }
 
 extension UiEventController {
-    func toast(_ message: String, isLong:Bool = false) {
+
+    func toast(_ message: String, isLong: Bool = false) {
         send(.Toast(message: message, isLong: isLong))
+    }
+
+    func errorToast(_ message: String, isLong: Bool = true) {
+        send(
+            .Toast(
+                message: message,
+                isLong: isLong,
+                isError: true
+            )
+        )
     }
 }

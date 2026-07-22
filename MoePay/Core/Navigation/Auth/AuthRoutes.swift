@@ -8,5 +8,5 @@
 enum AuthRoutes: Hashable {
     case onboarding
     case login
-    case verifyOtp
+    case verifyOtp(phone: String)
 }

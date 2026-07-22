@@ -87,4 +87,14 @@ extension APIResult {
         }
         return self
     }
+
+    @discardableResult
+    func sendSnackbarOnError() -> APIResult<T> {
+        if case .failure(let error) = self {
+            UiEventController.shared.errorToast(error.message ?? "An error occurred")
+        }
+        return self
+    }
 }
+
+

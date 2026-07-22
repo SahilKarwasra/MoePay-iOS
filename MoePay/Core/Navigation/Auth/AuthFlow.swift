@@ -17,7 +17,9 @@ struct AuthFlow: View {
                     switch route {
                         case .onboarding: OnboardingScreen()
                         case .login: LoginScreen()
-                        case .verifyOtp: VerifyOtpScreen()
+                        case .verifyOtp(let phone): VerifyOtpScreen(
+                            phoneNumber: phone
+                        )
                     }
                 }
         }.environment(coordinator)

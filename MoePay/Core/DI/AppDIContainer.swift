@@ -27,6 +27,6 @@ final class AppDIContainer: Sendable {
         let authApi = AuthApi(client: client.client())
         self.authApi = authApi
         
-        self.authRepository = AuthRepositoryImpl(authApi: authApi)
+        self.authRepository = AuthRepositoryImpl(authApi: authApi, storage: storage)
     }
 }

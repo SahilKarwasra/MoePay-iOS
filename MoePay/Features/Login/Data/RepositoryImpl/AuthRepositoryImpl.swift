@@ -6,19 +6,25 @@
 //
 
 final class AuthRepositoryImpl: AuthRepository {
-    
+        
     private let authApi : AuthApi
-    init(authApi: AuthApi) {
+    private let storage: KeychainRepository
+    init(authApi: AuthApi, storage: KeychainRepository) {
         self.authApi = authApi
+        self.storage = storage
     }
     
     func generateOTP(phone: String) async -> APIResult<SendOtpResponseModel> {
         await authApi.generateOtp(.init(phoneNumber: phone))
     }
     
-//    func verifyOTP(phone: String, otp: String) async -> ApiResult<SendOtpResponseModel> {
-//        
-//    }
-    
-    
+    func verifyOTP(phone: String, otp: String) async -> APIResult<VerifyOtpResponseModel> {
+        await authApi.verifyOtp(VerifyOtpRequestModel(otp: otp, phoneNumber: phone)).onSuccess { VerifyOtpResponseModel in
+            Task {
+                await storage.saveToken(VerifyOtpResponseModel.accessToken)
+                await storage.saveRefreshToken(VerifyOtpResponseModel.refreshToken)
+                await storage.saveIsNewUser(VerifyOtpResponseModel.isUserNew)
+            }
+        }
+    }
 }
